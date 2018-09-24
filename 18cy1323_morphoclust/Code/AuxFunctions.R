@@ -13,14 +13,14 @@ scaleSet <- function(fs){
 }
 
 #scale & center DNA intensity parm
-scaleDNA <- function(fs){
-  fsApply(fs, FUN = function(fr){
+scaleDNA <- function(fs, ...){
+  fsApply(fs, FUN = function(fr, y){
     mat <- exprs(fr)
-    mat[,18] <- scale(mat[,18]) #scale draq5 intensity parm
+    mat[,y] <- scale(mat[,y]) #scale draq5 intensity parm
     exprs(fr) <- mat
     exprs(fr)
     
-    fr
+    return(fr)
   })
 }
 

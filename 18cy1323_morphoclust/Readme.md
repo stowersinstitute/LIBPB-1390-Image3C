@@ -1,8 +1,4 @@
 ﻿
-
-
-> Written with [StackEdit](https://stackedit.io/).
-
 # Instructions for running morphoClust analysis
 
 ## Data acquisition on the imagestream
