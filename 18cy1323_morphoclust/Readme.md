@@ -5,12 +5,18 @@
 
  1. Acquire data at the highest possible magnification ensuring compensation controls are collected and the camera is not saturated.
  2. Perform color compensation in IDEAS and apply to an example data file when opening it in IDEAS for analysis.  
- 3. Generate features that capture elements of size, shape, texture and intensity for any channels/dyes of interest.
+ 3. Generate features that capture elements of size, shape, texture and intensity for any channels/dyes of interest.  
+ 
+ #### *Important: For texture features, use a mask that encompasses the whole cell.  For shape features, use a mask that captures the shape of the signal, e.g. morphology for flourescence or adaptive erode for BF.*
+ 
  4. Export feature values as FCS.  Be sure to have daf files that correspond exactly to the events exported to the FCS format (i.e. don't export a subset of cells as fcs unless you also create a new cif file that matches).  This will become important later when analyzing and merging in new paramters in FCS Express.
 
 ## FCS file pre-processing for clustering
 
- 1. Install R version 3.4.X and R studio (newest version).
+ 1. Install R version 3.5.X and R studio (newest version).  
+ 
+ #### *If on site at SIMR, run using R studio on a linux computational server.*
+ 
  2. Install the following R packages: flowCore, flowStats, ggcyto, ggridges, stringr, Hmisc, caret, pheatmap, reshape2, data.table, RColorBrewer, edgeR, plyr, ggplot2, pastecs, igraph.
  3. Create R studio project in a folder containing fcs files exported from IDEAS. 
  4. Open the script called "processFcsFiles.R" and run line by line.  
@@ -23,7 +29,7 @@
 
 ## Clustering in Vortex
 
- 1. Install vortex from here  https://github.com/nolanlab/vortex/releases
+ 1. Install vortex from here:  https://github.com/nolanlab/vortex/releases
  2. Instructions for use are here: https://github.com/nolanlab/vortex/wiki/Getting-Started
  3. After Vortex is installed, import your processed FCS files.  Apply import settings of your preference, it depends on the data somewhat, but for example probably not necessary to transform again since we did it in R already for fluroescent parameters.
  4. Run clustering with K (number of nearest neighbors)  across a range of values from approximately 10-150, then select all clusters and choose validation, and find elbow point for cluster number.
@@ -39,7 +45,7 @@
 
 ## Analysis of Clustering results in R
 
-1. Create an R studio project in the folder with the tabular data above.
+1. Create an R studio project in the folder with the tabular data above.  Again, can run from R Studio on maple or hickory servers at SIMR.
 2. Open the script called "processClusteringResults.R".
 3. Line ~261 must specify number of conditions.
 4. Section under GLM method ~line 278 must be customized for your variables.  Purpose is to perform negative binomial modeling on cell counts per cluster between conditions of interest to find clusters that are present in different amounts between groups or variables.
