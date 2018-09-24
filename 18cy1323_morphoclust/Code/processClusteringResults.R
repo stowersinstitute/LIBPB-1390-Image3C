@@ -52,7 +52,16 @@ for(i in c(2:ncol(mstdata))) {
 }
 
 mstmatrix <- as.matrix(mstdata)
+#if not clustering on all params, need to scale params not used for clustering
+plot(colMeans(mstmatrix), ylim = c(-10,10)) #all values should be near 0, very near
+#mstmatrix <- scale(mstmatrix[,c(10:27)])
+plot(colMeans(mstmatrix))
+
+pdf(file = "HeatmapsClustersByFeatureMeans.pdf", width = 10, height = 7, onefile = FALSE)
 pheatmap(mstdata, scale = "column") #have a look this way
+dev.off()
+graphics.off()
+
 mydist <- dist(mstmatrix, method = 'euclidean', diag =TRUE, upper = TRUE) #generate distance matrix object
 distmat <- as.matrix(mydist) #convert to matrix object
 
@@ -73,7 +82,10 @@ colnames(treecoords) <- c("MST-X","MST-Y")
 write.csv(treecoords, file = "MSTcoords.csv") #save this and integrate to big csv of all file events using "parse big csv" code
 
 #Plot MST, all nodes same size, color by cluster ID to match FDL plots
+pdf(file = "MST.pdf", width = 10, height = 10, onefile = FALSE)
 plot(mymst, layout = layout, vertex.size = 10, edge.arrow.size = 0.5) #specifying layout here determines coords
+dev.off()
+graphics.off()
 
 ######Parse Big Master Csv###
 #accepts as input "ClusterIDs.csv", "FDL_coords.csv" and "MSTcoords.csv"
@@ -154,7 +166,10 @@ V(FDL)$color <- gmlclusters1$Color #add color info to igraph object
 
 V(FDL)$y <- -1 * V(FDL)$y #flip Y axis values to match vortex plots
 
+pdf(file = "FDL_R.pdf", width = 10, height = 10, onefile = FALSE)
 plot(FDL, vertex.size = 1) #plot this, save as pdf
+dev.off()
+graphics.off()
 
 
 #use dataframe from above section as counts table, doing this part now to make groupKey for coloring FDL plots by cond.
@@ -199,8 +214,6 @@ gmlclusters4 <- gmlclusters4[order(Sort),] #reorder using sort column of numbers
 
 V(FDL)$Treatment <- as.character(gmlclusters4$Desc) #add color info to igraph object
 
-#code below makes FDL plots by treatment (Desc)
-
 tmts <- unlist(table(V(FDL)$Treatment))
 
 tmts1 <- c(tmts)
@@ -231,12 +244,11 @@ graphics.off()
 
 
 
-
 ################################
 #use edgeR glm approach for statistical analysis, employs a negative binomial distribution model
 ################################
 
-group <- groupKey[,1] #define list of sample groups #make group list for modeling
+group <- groupKey[,'Group'] #define list of sample groups #make group list for modeling
 
 ## make DGElist
 mylist <- DGEList(counts = counts, group = group)
@@ -257,30 +269,24 @@ mylist <- calcNormFactors(mylist, method = "none")
 mylist
 
 
-##
-n1 <- 4 #number of conditions (factor levels of Desc)
-mycolors <- brewer.pal(n1, "Set1")
+###make color key for plotting stuff, must specify # of groups for the numGrps variable
+numGrps <- 4
+mycolors <- brewer.pal(numGrps, "Set1")
 jColors <- with(groupKey,
                 data.frame(Desc = levels(Desc),
-                      color = mycolors[1:n1]))
+                      color = mycolors[1:numGrps]))
 ##
 
-
+pdf(file = "MDSplot.pdf", width = 8, height = 8, onefile = FALSE)
 plotMDS(mylist, method="bcv",
         col = jColors$color[match(groupKey$Desc, jColors$Desc)],
         pch=20)
 legend("topright", levels(groupKey$Desc),
        col=jColors$color, pch=20)
+dev.off()
+graphics.off()
 
 
-	   
-#Make heatmaps of samples clustered by cell counts per cluster.
-rowAnnot <- as.data.frame(groupKey$Desc) #can keep other variables here if they exist, for annotating heatmaps a few lines below
-rownames(rowAnnot) <- rownames(mydata)
-#rowAnnot$Group <- NULL #remove 'group' column if needed
-
-pheatmap(log(mydata+1), scale = "column", annotation_row = rowAnnot)
-pheatmap(cor(counts), annotation_row = rowAnnot)
 
 ############
 #glm method#
@@ -288,7 +294,12 @@ pheatmap(cor(counts), annotation_row = rowAnnot)
 
 design1 <- model.matrix(~ 0 + group, data=mylist$samples)  #define exp design
 y <- estimateDisp(mylist, design1) #esimate common dispersion
+
+pdf(file = "BCVplot.pdf", width = 8, height = 5, onefile = FALSE)
 plotBCV(y) #plot biological CVs
+dev.off()
+graphics.off()
+
 fit <- glmFit(y, design1) #fit model using design matrix
 
 lrt.one <- glmLRT(fit, contrast = c(0,-1,0,1)) #groups Phago Minus Ice
@@ -333,8 +344,21 @@ text(x = DEG3$table$logCPM,
 
 
 
+#Hua says, look at your data before doing statistical tests
+#Also want to do correlation and throw out outliers
+rowAnnot <- as.data.frame(groupKey$Desc)
+rownames(rowAnnot) <- rownames(mydata)
+#rowAnnot$Group <- NULL
 
+pdf(file = "HeatmapSamplesByClusterCounts.pdf", width = 8, height = 6, onefile = FALSE)
+pheatmap(log(mydata+1), scale = "column", annotation_row = rowAnnot)
+dev.off()
+graphics.off()
 
+pdf(file = "CorrelationSamplesByClusterCounts.pdf", width = 10, height = 10, onefile = FALSE)
+pheatmap(cor(counts), annotation_row = rowAnnot)
+dev.off()
+graphics.off()
 
 
 ####
@@ -363,12 +387,15 @@ V(mymst)$size <- scaledvert(vertexatt$TotalCounts) * 10 #apply to cluster counts
 vertexatt$CumDist <- scaledvert(vertexatt$TotalCounts) #put into dataframe just to have it
 
 #plot new MST, node sizes proportional to counts, nodes color to match FDL plots
+
+pdf(file = "MstByCounts.pdf", width = 10, height = 10, onefile = FALSE)
 plot(mymst, layout = layout,
      edge.arrow.size = 0.5,
      label.dist = 1,
      vertex.color = vertexColors) #specifying layout here determines coords
+dev.off()
+graphics.off()
 
-list.vertex.attributes(mymst)
 
 
 
