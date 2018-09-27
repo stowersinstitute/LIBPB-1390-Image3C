@@ -65,6 +65,7 @@
  8. If it's working, you should have new parameters now for ClusterID, FDL-X, FDL-Y, MST-X and MST-Y.  
  9. Cell images for cells in a given cluster or position in MST or FDL plots can now be displayed in a data grid for confirmation of their identities or making figures.
  
+ 
  ## Table of features to try as initial set:
  
 |                    |                                 |                         | 
@@ -105,3 +106,4 @@
 | Each Fluor channel | adaptive erode-BF               | integrated intensity    | 
 | Each Fluor channel | adaptive erode-BF               | mean intensity          | 
 | Each Fluor channel | adaptive erode-BF               | max pixel               | 
+| Each Fluor channel | adaptive erode-BF               | Bright detail intensity | 
