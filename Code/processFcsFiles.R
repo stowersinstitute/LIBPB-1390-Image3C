@@ -214,6 +214,12 @@ mynames <- paste(mynames, "_processed.fcs", sep = "") #paste in new suffixes
 #save new fcs files
 write.flowSet(myflowsetNorm, dir, filename = mynames) #make sure you point to the correct flowSet here!
 
-
+#or write csv files
+mynames <- myflowset@phenoData@data$name #get file names from flowset
+mynames <- strsplit(mynames, "\\.") #string split on "."
+mynames <- sapply(mynames, function(x) strsplit(x, ":")[[1]][1]) #get out 1st element from strsplit output
+lapply(1:length(myflowset), function(i) write.csv(exprs(myflowset[[i]]), 
+                                          file = paste0(mynames[[i]], ".csv"),
+                                          row.names = FALSE))
 
 
