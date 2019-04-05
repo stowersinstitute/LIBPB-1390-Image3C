@@ -1,5 +1,5 @@
 ﻿
-# Instructions for running morphoClust analysis
+# Instructions for running Image3C analysis
 
 ## Data acquisition on the imagestream
 
