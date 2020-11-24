@@ -7,7 +7,7 @@
  2. Perform color compensation in IDEAS and apply to an example data file when opening it in IDEAS for analysis.  
  3. Generate features that capture elements of size, shape, texture and intensity for any channels/dyes of interest.  
  
- #### *Important: For texture features, use a mask that encompasses the whole cell.  For shape features, use a mask that captures the shape of the signal, e.g. morphology for flourescence or adaptive erode for BF.*
+ #### *Important: For texture features, use a mask that encompasses the whole cell.  For shape features, use a mask that captures the shape of the signal, e.g. morphology for fluorescence or adaptive erode for BF.*
  
  4. Export feature values as FCS.  Be sure to have daf files that correspond exactly to the events exported to the FCS format (i.e. don't export a subset of cells as fcs unless you also create a new cif file that matches).  This will become important later when analyzing and merging in new paramters in FCS Express.
 
