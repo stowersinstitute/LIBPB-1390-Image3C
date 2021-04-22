@@ -3,28 +3,27 @@
 
 ## Data acquisition on the imagestream
 
- 1. Acquire data at the highest possible magnification ensuring compensation controls are collected and the camera is not saturated.
- 2. Perform color compensation in IDEAS and apply to an example data file when opening it in IDEAS for analysis.  
- 3. Generate features that capture elements of size, shape, texture and intensity for any channels/dyes of interest.  
+ 1. Acquire data at the highest possible magnification that keeps most events in the field of view.
+ 2. Color compensation controls should be collected for each channle used (Except brightfield).  
+ 3. Ensure the camera is not saturated for any cells of interest by plotting raw signal intensity of gated events in the acqusition software.
+ 4. Perform color compensation in IDEAS and apply to all rif files, resulting in cif/daf files.  
+ 5. Selet a representative sample that contains all labels and generate features that capture elements of size, shape, texture and intensity for any channels/dyes of interest.  The exact complement of features used is not critical since typically many features have overlapping information content, but it's important to capture attributes from these major classes of elements above (size, shape, texture, intensity).
  
  #### *Important: For texture features, use a mask that encompasses the whole cell.  For shape features, use a mask that captures the shape of the signal, e.g. morphology for fluorescence or adaptive erode for BF.*
  
- 4. Export feature values as FCS.  Be sure to have daf files that correspond exactly to the events exported to the FCS format (i.e. don't export a subset of cells as fcs unless you also create a new cif file that matches).  This will become important later when analyzing and merging in new paramters in FCS Express.
+ 6. Now, do a batch analysis to apply this new daf file to all samples.  Then, export all feature values as FCS files in batch.  Be sure to have daf files that correspond exactly to the events exported to the FCS format.  I.e. don't export a subset of cells as fcs unless you also create a new cif file that matches the same events used.  If you export only nucleated events as FCS, generate a cif file with the exact same population.  This will become important later when analyzing and merging in new paramters in FCS Express.
 
 ## FCS file pre-processing for clustering
 
- 1. Install R version 3.5.X and R studio (newest version).  
- 
- #### *If on site at SIMR, run using R studio on a linux computational server.*
- 
+ 1. Install R version 3.5.X and R studio (the current newest version as of April 2021 appears to work well with all libraries used). 
  2. Install the following R packages: flowCore, flowStats, ggcyto, ggridges, stringr, Hmisc, caret, pheatmap, reshape2, data.table, RColorBrewer, edgeR, plyr, ggplot2, pastecs, igraph.
- 3. Create R studio project in a folder containing fcs files exported from IDEAS. 
+ 3. Create R studio project in a folder containing your fcs files exported from IDEAS. 
  4. Open the script called "processFcsFiles.R" and run line by line.  
 
-**Note where comments suggest that changes should be made based on your data set or to the code to accommodate differences between experiments, files, etc.  For example, you'll need to make an read in a csv file called "RowLabels.csv" around line 59 for use in annotations.  This has to match your sample names.  See the example files in the github.**
+**Note where comments suggest that changes should be made based on your data set or to the code to accommodate differences between experiments, files, etc.  For example, you'll need to make and read-in a csv file called "RowLabels.csv" at line 59 for use in annotations.  This has to match your sample names exactly.  See the example files in the github location \LIBPB-1390-Image3C\1-ProcessFcsFiles\processing\RowLabels.csv and a full set of example files from this section.**
 
- 6. Be careful using gaussNorm().  It's possible to normalize out your results.  We find it's best for DNA content staining drift correction, where the true nature of 2N and 4N peaks is known.  It can also be used for antibody staining drift but use caution that what you're seeing is drift due to a titer or cell number difference and not a result.
- 7. New fcs files are exported at the end of the script with "_processed.fcs" appended to the end.  These files will be imported into Vortex/Xshift for clustering.
+ 6. Be careful using gaussNorm().  It's possible to normalize out your results.  We find it's best to use only for DNA content staining drift correction, where the true nature of 2N and 4N peaks is known and can be judged whether you have changed the underlying nature of distributions.  It can also be used for antibody staining drift but use caution that what you're seeing is a result of staining 'drift' and not an intensity difference that represents a true result.
+ 7. New fcs files are exported at the end of the script with "_processed.fcs" appended to the end.  These files will be imported into Vortex/Xshift for clustering next.
  
 
 ## Clustering in Vortex
@@ -43,12 +42,14 @@
      * FDL_coords.csv
      * FDL.graphml
 
+**Reference videos for Vortex clustering process and link**
+
 ## Analysis of Clustering results in R
 
-1. Create an R studio project in the folder with the tabular data above.  Again, can run from R Studio on maple or hickory servers at SIMR.
+1. Create an R studio project in the folder with the tabular data above.  
 2. Open the script called "processClusteringResults.R".
-3. Line ~261 must specify number of conditions.
-4. Section under GLM method ~line 278 must be customized for your variables.  Purpose is to perform negative binomial modeling on cell counts per cluster between conditions of interest to find clusters that are present in different amounts between groups or variables.
+3. Line 261 must specify number of conditions.
+4. Section under GLM method line 278 must be customized for your variables.  Purpose is to perform negative binomial modeling on cell counts per cluster between conditions of interest to find clusters that are present in different amounts between groups or variables.
 5. Save any resulting and desired plots manually in R studio (Force directed layout FDL plots per condition are saved automatically though).
 6. Make note of any statistically significant clusters between groups or variables.  These can be displayed in FCS Express in the next steps.
 7. Copy the new csv files generated (one per sample) into a new folder to be used in the next section.  These csv files contain feature values per sample, and also cluster ID, FDL plot coordinates and spanning tree plot coordinates per cell.  This data can be merged into daf files in FCS Express using the "R add parameters" transformation option.
