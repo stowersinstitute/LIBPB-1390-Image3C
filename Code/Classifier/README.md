@@ -2,6 +2,7 @@
 
 ## Installation of python
 - For best performance an NVIDIA GPU with CUDA is recommended
+
 ### Install requirements for TensorFlow
 - tensorflow_gpu-1.15.0	3.3-3.7
   - NVIDIA drivers
