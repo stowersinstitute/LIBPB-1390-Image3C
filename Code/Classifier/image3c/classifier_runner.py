@@ -1,13 +1,14 @@
 import os
 import shutil
 import sys
+import time
 from datetime import datetime
-import network
 
 import numpy as np
 from matplotlib import pyplot as plt
 import sklearn.metrics as metrics
-import time
+
+from .network import get_classifier
 
 def run(params):
 
@@ -15,7 +16,7 @@ def run(params):
     for k, v in params.items():
         print("{:15s}: {}".format(k, v))
         
-    c = network.get_classifier(params['datafile'], params['labelsfile'],
+    c = get_classifier(params['datafile'], params['labelsfile'],
                                32, 5, params['clusterlist'],
                                channels=params['channels'],
                                ow=64, combine=params['combine'])
@@ -56,9 +57,7 @@ def run(params):
     print(metrics.accuracy_score(tls, vsms))
 
     cm = metrics.confusion_matrix(tls, vsms)
-    #cm = cm/cm.sum(axis=1)
-    #import pandas as pd
-    #cmdf = pd.DataFrame(cm)
+
     np.set_printoptions(precision=3)
     print(cm)
     print(cm.sum(axis=0, keepdims=True))

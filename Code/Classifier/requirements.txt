@@ -1,0 +1,10 @@
+tensorflow-gpu==1.15
+numpy
+scikit-learn
+scikit-image
+tifffile
+matplotlib
+pandas
+jupyter
+ipython
+
