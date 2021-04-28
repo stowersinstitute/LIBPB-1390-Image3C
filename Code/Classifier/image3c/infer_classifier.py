@@ -4,9 +4,6 @@ import tensorflow as tf
 from matplotlib import pyplot as plt
 import pandas as pd
 import seaborn as sns
-import umap
-from sklearn.cluster import AgglomerativeClustering, KMeans
-from sklearn.preprocessing import LabelBinarizer
 from sklearn import metrics
 
 ### where is the best model checkpoint

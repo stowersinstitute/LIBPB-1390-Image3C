@@ -40,9 +40,23 @@ def readtiff(xdir, filename):
     return mn, mx, img
 
 def pad_image(size, image, background):
+    '''Create an image of size, either crop or pad
 
+    Parameters
+    ----------
+    size : int
+        the width and height of the final square image
+    image : array
+        the 2D input image
+    background : float
+        the background value for the image if padded
+
+    Returns
+    -------
+    pad : array
+        the padded or cropped image of shape (size, size)
+    '''
     pad = np.zeros((256, 256), dtype=np.float32)
-
     pad += background
 
     h, w = image.shape
@@ -52,24 +66,52 @@ def pad_image(size, image, background):
     try:
         pad[y:y+h, x:x+w] = image
     except:
-        print('what???')
+        print('Could not create padded image')
+
     return pad[128 - size//2:128 + size//2, 128 - size//2: 128 + size//2]
 
-def get_image_dict(xdir, filename):
+def parse_for_channels(filenames):
+    '''Add docs
+    '''
+    channels = set()
+    for f in filenames:
+        try:
+            numstart = filename.index('_Ch') + 3  # where channel number starts
+            num_end = filename.index('.ome.tif')  #one past the last of the channel
+            channel = int(filename[numstart:num_end])
+            channels.add(channel)
+        except Exception as e:
+            pass
 
-    ''' 
-    filename is like xxxx_Chyy.ome.tif
-    
-    xxxx is the id
-    yy is the channel
-    Parameter
+        res = sorted(list(channels))
+        return res
+
+def get_image_dict(xdir, filename):
+    '''Parses the filename for metadata, reads the image and returns a dict
+    Specific to tiff files exported from ImageStream
+
+    Parameters
     ----------
-    dir
-    filename
+    xdir : str
+        path to the image file
+    filename : str
+        name of the image file
 
     Returns
     -------
-
+    dict
+        index : int
+            the index from the imagestream
+        channel : int
+            image channel from the filename
+        filename : str
+            filename from input parameter
+        image : array
+            the image pixels 
+        min : float
+            the image minimum
+        max : float
+            the image maximum
     '''
     try:
         numstart = filename.index('_Ch') + 3  # where channel number starts
@@ -91,11 +133,28 @@ def get_image_dict(xdir, filename):
     return {'index': id, 'channel': channel,
                     'filename': filename,'image': img, 'min':mn, 'max':mx}
 
-def get_images(xdir, images):
+def get_images(xdir, images, chmap):
+    '''Read image files and return a dictionary of channel images
+
+    Parameters
+    ----------
+    xdir : str
+        Path to the directory for the image file
+    images: list
+        List of image filenames
+
+    Returns
+    -------
+    image_dict : dict
+        key : int
+            index corresponding to the imagestream id
+        value : dict
+            dictionary of channel image dicts from get_image_dict()
+    '''
     
     images = sorted(images)
     image_dict = dict()
-    chmap = {1: 0, 2: 1, 6: 2, 7: 3, 11: 4}
+    #chmap = {1: 0, 2: 1, 6: 2, 7: 3, 11: 4}
 
     for ff in images:
         if not ff.endswith('.tif'):
@@ -112,9 +171,30 @@ def get_images(xdir, images):
             image_dict[index][chmap[ch]] = td
     return image_dict
 
-def form_image_array(image_dict, h, w, nc):
+def form_image_array(image_dict, h, w, channel_map):
+    '''Creates an array of all images in image_dict
+    
+    Parameters
+    ----------
+    image_dict : dict
+        key : int
+            index of the image
+        value : dict
+            dictionary from get_image_dict()
+
+    Returns
+    -------
+    a : array
+        the multichannel image array of shape (n, h, w, channels)
+    index_dict : dict
+        key: int
+            enumerated index over the keys in image_dict
+        value : int
+            index of the image from imagestream
+    '''
 
     n = len(image_dict)
+    nc = len(channel_map)
     a = np.zeros((n, h, w, nc), dtype=np.float32)
 
     indexes = sorted(image_dict.keys())
@@ -166,8 +246,11 @@ def process_tifs(xdir, outdir='ImagesToTrain'):
         outdir += "/"
         
     imagefiles = os.listdir(xdir)
-    image_dict = get_images(xdir, imagefiles)
-    a, index_dict = form_image_array(image_dict, 64, 64, 5)
+    channels = parse_for_channels(imagefiles)
+
+    cdict = {i:c for i,c in enumerate(channels)}
+    image_dict = get_images(xdir, imagefiles, cdict)
+    a, index_dict = form_image_array(image_dict, 64, 64, cdict)
     
     maxis = np.amax(a, axis=(0,1,2))
     if outdir == None:
@@ -215,18 +298,17 @@ def runscan(dir, dirs):
     structure
     
     Parameters
-    __________
+    ----------
     dir : string 
         The path of the root directory to search
     
     dirs : list
         A list that will contain all ot the directories that have
-        tifs in the structure 
+        tiffs in the structure 
     Returns
-    _______
+    -------
     
     Nothing, use the input list dirs as the result
-    
     """
     with os.scandir(dir) as scan:
         for entry in scan:
@@ -234,9 +316,9 @@ def runscan(dir, dirs):
                 runscan(entry.path, dirs)
             else:
                 if entry.name.endswith(".tif"):
-                    #print(entry.path)
                     dirs.append(dir)
                     return
+
 
 if __name__ == '__main__':
 
