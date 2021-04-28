@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import codecs
 from setuptools import setup, find_packages
 
@@ -13,7 +14,12 @@ def read(fname):
 
 # Add your dependencies in requirements.txt
 # Note: you can add test-specific requirements in tox.ini
-requirements = []
+if sys.platform == 'darwin':
+    rtf = 'tensorflow==1.15'
+else:
+    rtf = 'tensorflow-gpu==1.15'
+
+requirements = [rtf]
 with open('requirements.txt') as f:
     for line in f:
         stripped = line.split("#")[0].strip()
