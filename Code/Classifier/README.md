@@ -53,7 +53,9 @@ For more information regarding installation of CUDA, see this document:
 [NVIDIA CUDA](https://developer.download.nvidia.com/compute/cuda/10.0/Prod/docs/sidebar/CUDA_Quick_Start_Guide.pdf)
 
 
-### Install tensorflow and other packages with pip
+### Install image3c as a python package
+Download the image3c code from github using git or by downloading and extracting
+the zip file.
 The python package manager pip can be install tensorflow and it's dependencies.
 - should have a requirements.txt file
 

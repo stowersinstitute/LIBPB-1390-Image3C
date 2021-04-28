@@ -14,6 +14,7 @@ def read(fname):
 
 # Add your dependencies in requirements.txt
 # Note: you can add test-specific requirements in tox.ini
+'''
 if sys.platform == 'darwin':
     rtf = 'tensorflow==1.15'
 else:
@@ -25,7 +26,7 @@ with open('requirements.txt') as f:
         stripped = line.split("#")[0].strip()
         if len(stripped) > 0:
             requirements.append(stripped)
-
+'''
 
 setup(
     name='image3c',
@@ -39,7 +40,7 @@ setup(
     long_description_content_type='text/markdown',
     packages=find_packages(),
     python_requires='==3.7',
-    install_requires=requirements,
+    #install_requires=requirements,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
