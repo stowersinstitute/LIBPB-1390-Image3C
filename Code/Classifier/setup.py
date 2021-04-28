@@ -21,12 +21,14 @@ else:
     rtf = 'tensorflow-gpu==1.15'
 
 requirements = [rtf]
+'''
+requirements = []
 with open('requirements.txt') as f:
     for line in f:
         stripped = line.split("#")[0].strip()
         if len(stripped) > 0:
             requirements.append(stripped)
-'''
+
 
 setup(
     name='image3c',

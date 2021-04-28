@@ -28,8 +28,19 @@ Anaconda Prompt command using the search tool.
 
 ### Create a conda environment
 Image3c requires version 3.7 of python and TensorFlow version 1.15, so a fresh conda
-enviroment is recommended. In the following command, a conda environment
+enviroment is recommended. We have written an environment file the takes care of
+creating the conda environment and installing all needed dependencies. If you are on
+MacOS or don't have an NVIDA GPU with CUDA use environment.yml. If you are on Windows
+or Linux and have a CUDA GPU then use environment_gpu.yml
+
+In the following command, a conda environment
 named `image3c` is created with python 3.7:
+
+`conda env create -f environment.yml`
+
+if on windows or linux with a CUDA gpu
+
+`conda env create -f environment_gpu.yml`
 
 `conda create -n image3c python=3.7`
 
