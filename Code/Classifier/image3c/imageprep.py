@@ -319,6 +319,11 @@ def runscan(dir, dirs):
                     dirs.append(dir)
                     return
 
+def run(topdir, outdir):
+    runscan(topdir, dirs) 
+    for i, d in enumerate(dirs):
+        print("Starting: ", i, d)
+        process_tifs(d, outdir)
 
 if __name__ == '__main__':
 
