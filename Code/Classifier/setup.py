@@ -41,7 +41,7 @@ setup(
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     packages=find_packages(),
-    python_requires='==3.7',
+    python_requires='>=3.6,<3.8',
     #install_requires=requirements,
     classifiers=[
         'Development Status :: 4 - Beta',
