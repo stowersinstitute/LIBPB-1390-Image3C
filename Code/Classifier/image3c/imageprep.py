@@ -66,7 +66,7 @@ def pad_image(size, image, background):
     try:
         pad[y:y+h, x:x+w] = image
     except:
-        print('Could not create padded image')
+        print('Could not create padded image', image.shape)
 
     return pad[128 - size//2:128 + size//2, 128 - size//2: 128 + size//2]
 
@@ -76,15 +76,15 @@ def parse_for_channels(filenames):
     channels = set()
     for f in filenames:
         try:
-            numstart = filename.index('_Ch') + 3  # where channel number starts
-            num_end = filename.index('.ome.tif')  #one past the last of the channel
-            channel = int(filename[numstart:num_end])
+            numstart = f.index('_Ch') + 3  # where channel number starts
+            num_end = f.index('.ome.tif')  #one past the last of the channel
+            channel = int(f[numstart:num_end])
             channels.add(channel)
         except Exception as e:
             pass
 
-        res = sorted(list(channels))
-        return res
+    res = sorted(list(channels))
+    return res
 
 def get_image_dict(xdir, filename):
     '''Parses the filename for metadata, reads the image and returns a dict
@@ -151,7 +151,6 @@ def get_images(xdir, images, chmap):
         value : dict
             dictionary of channel image dicts from get_image_dict()
     '''
-    
     images = sorted(images)
     image_dict = dict()
     #chmap = {1: 0, 2: 1, 6: 2, 7: 3, 11: 4}
@@ -196,7 +195,7 @@ def form_image_array(image_dict, h, w, channel_map):
     n = len(image_dict)
     nc = len(channel_map)
     a = np.zeros((n, h, w, nc), dtype=np.float32)
-
+    print(a.shape)
     indexes = sorted(image_dict.keys())
     index_dict = dict()
     for idx, index in enumerate(indexes):
@@ -221,9 +220,6 @@ def form_image_array(image_dict, h, w, channel_map):
                 bg = np.amin(b1)
             b2 = pad_image(64, b1, bg)
 
-            if np.amax(b1) > 1 or np.amin(b1) < 0:
-                pass
-            
             a[idx, :, :, kx] = b2
 
     return a, index_dict
@@ -247,8 +243,7 @@ def process_tifs(xdir, outdir='ImagesToTrain'):
         
     imagefiles = os.listdir(xdir)
     channels = parse_for_channels(imagefiles)
-
-    cdict = {i:c for i,c in enumerate(channels)}
+    cdict = {c:i for i,c in enumerate(channels)}
     image_dict = get_images(xdir, imagefiles, cdict)
     a, index_dict = form_image_array(image_dict, 64, 64, cdict)
     
@@ -269,17 +264,17 @@ def process_tifs(xdir, outdir='ImagesToTrain'):
 
     mm_name = "_".join(xdir2.split("/")[-2:])
     mm_file = outdir + mm_name + ".mm"
-    
+
     pklname = mm_name + "_index.pkl"
 
     with open(pklname, mode='wb') as pkl:
         pickle.dump(index_dict, pkl)
-        
+
     mmheader = np.memmap(mm_file, dtype='int32', mode='w+', shape=(4,))
     mmheader[0] = len(image_dict)
     mmheader[1] = 64
     mmheader[2] = 64
-    mmheader[3] = 5
+    mmheader[3] = a.shape[-1] 
 
     mmheader.flush()
     del mmheader
@@ -320,6 +315,7 @@ def runscan(dir, dirs):
                     return
 
 def run(topdir, outdir):
+    dirs = list()
     runscan(topdir, dirs) 
     for i, d in enumerate(dirs):
         print("Starting: ", i, d)
