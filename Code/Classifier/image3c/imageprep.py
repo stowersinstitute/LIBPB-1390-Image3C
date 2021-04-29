@@ -263,29 +263,30 @@ def process_tifs(xdir, outdir='ImagesToTrain'):
         xdir2 = xdir
 
     mm_name = "_".join(xdir2.split("/")[-2:])
-    mm_file = outdir + mm_name + ".mm"
+    mm_file = outdir + mm_name + ".npy"
 
     pklname = mm_name + "_index.pkl"
 
     with open(pklname, mode='wb') as pkl:
         pickle.dump(index_dict, pkl)
 
-    mmheader = np.memmap(mm_file, dtype='int32', mode='w+', shape=(4,))
-    mmheader[0] = len(image_dict)
-    mmheader[1] = 64
-    mmheader[2] = 64
-    mmheader[3] = a.shape[-1] 
+    np.save(mm_file, a)
+    #mmheader = np.memmap(mm_file, dtype='int32', mode='w+', shape=(4,))
+    #mmheader[0] = len(image_dict)
+    #mmheader[1] = 64
+    #mmheader[2] = 64
+    #mmheader[3] = a.shape[-1] 
 
-    mmheader.flush()
-    del mmheader
+    #mmheader.flush()
+    #del mmheader
 
-    shape =a.shape #(len(image_dict), 64, 64, 5)
-    mmdata = np.memmap(mm_file, dtype=np.float32, offset=128,
-                       mode='r+', shape=shape)
+    #shape =a.shape #(len(image_dict), 64, 64, 5)
+    #mmdata = np.memmap(mm_file, dtype=np.float32, offset=128,
+    #                   mode='r+', shape=shape)
 
-    mmdata[:, :, :, :] = a
-    mmdata.flush()
-    del mmdata
+    #mmdata[:, :, :, :] = a
+    #mmdata.flush()
+    #del mmdata
 
 
 def runscan(dir, dirs):
