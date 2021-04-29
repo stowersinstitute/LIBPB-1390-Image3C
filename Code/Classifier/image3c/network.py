@@ -10,7 +10,7 @@ import tensorflow as tf
 
 class Classifier:
     def __init__(self, datafile, labelsfile, w, nc, cnums,
-                 offset=0, ow = 64, channels=[1,2,3],
+                 offset=0, ow = 64, channels=None,
                 dtype=np.float32, label_offset=0,
                 combine=None):
 
@@ -23,7 +23,11 @@ class Classifier:
         self.channels = channels
         self.label_dtype = dtype
         self.label_offset = label_offset
-        _images = self.readmm(datafile, w=ow)
+        _images = np.load(datafile) # self.readmm(datafile, w=ow)
+        if self.channels is None:
+            self.channels = list(range(_images.shape[-1]))
+
+        _images = self.crop(_images)
         _labels = np.load(labelsfile)
         #_labels = self.read_labels_mm(labelsfile, _images)
 
@@ -82,6 +86,14 @@ class Classifier:
         new_labels = np.delete(new_labels, c2, 1)
 
         return new_labels
+    
+    def crop(self, x):
+        crop0 = (self.ow - self.w)//2
+        crop1 = (crop0 + self.w)
+        sy = slice(crop0, crop1)
+        sx = slice(crop0, crop1)
+        x = x[:,sy, sx, self.channels]
+        return x
 
     def readmm(self, datafile, w=64, nc=5):
         mmh = np.memmap(datafile, dtype=np.int32, offset=0, shape=(4,))

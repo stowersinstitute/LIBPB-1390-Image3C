@@ -1,5 +1,5 @@
 import sys
-import classifier_runner
+from image3c import classifier_runner
 
 print(sys.argv)
 params = dict()
