@@ -17,7 +17,7 @@ def run(params):
         print("{:15s}: {}".format(k, v))
         
     c = get_classifier(params['datafile'], params['labelsfile'],
-                               32, 5, params['clusterlist'],
+                               32, params['num_channels'], params['clusterlist'],
                                channels=params['channels'],
                                ow=64, combine=params['combine'])
     
@@ -25,7 +25,7 @@ def run(params):
         shutil.rmtree(params['tensorboard_log_dir'])
         print('deleted logs')
     except:
-        print("couldn't delete")
+        print("couldn't delete tensorboard logs")
         
     time.sleep(4)
     while os.path.exists(params['tensorboard_log_dir']):
@@ -96,7 +96,3 @@ def run(params):
     with open(params['CheckpointDir'] + 'desc.txt', 'a+') as f:
         f.write('{:20s}: {}'.format(dtstring, params['description']))
         f.write('\n')
-    
-
-
-

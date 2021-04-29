@@ -24,9 +24,10 @@ class Classifier:
         self.label_dtype = dtype
         self.label_offset = label_offset
         _images = self.readmm(datafile, w=ow)
-        _labels = self.read_labels_mm(labelsfile, _images)
+        _labels = np.load(labelsfile)
+        #_labels = self.read_labels_mm(labelsfile, _images)
 
-        if combine is not None:
+        if len(combine) > 0:
             for b in combine:
                 _labels = self.combine_classes(b[0], b[1], _labels)
 
@@ -83,14 +84,27 @@ class Classifier:
         return new_labels
 
     def readmm(self, datafile, w=64, nc=5):
-        mm = np.memmap(datafile, dtype=np.float32, offset=self.offset)
-        mm = mm.reshape((-1, self.ow, self.ow, self.nc))
+        mmh = np.memmap(datafile, dtype=np.int32, offset=0, shape=(4,))
+        if mmh[1] == 64 and mmh[2] == 64:
+            offset = 128
+            shape = mmh[:]
+        else:
+            offset = 0 
+            shape = 0
+        del mmh
+
+        if offset == 0:
+            mm = np.memmap(datafile, dtype=np.float32, offset=self.offset)
+            mm = mm.reshape((-1, self.ow, self.ow, self.nc))
+        else:
+            mm = np.memmap(datafile, dtype=np.float32, offset=offset,
+                           shape=shape)
+            
         crop0 = (self.ow - self.w)//2
         crop1 = (crop0 + self.w)
         print(mm.shape)
         if self.channels == -1:
             x = mm[:,crop0:crop1, crop0:crop1, :]
-            x# = np.expand_dims(x, -1)
         else:
             x = mm[:,crop0:crop1, crop0:crop1, self.channels]
         del mm
