@@ -1,0 +1,27 @@
+name: image3c
+dependencies:
+  - python>3.6,<3.8
+  - cudatoolkit=10.0.130
+  - cudnn=7.6.0
+  - pip
+  - pip:
+    - numpy
+    - scikit-learn
+    - scikit-image
+    - tifffile
+    - matplotlib
+    - pandas
+    - traitlets
+    - pygments
+    - appnope
+    - backcall
+    - decorator
+    - jedi>=0.16
+    - pexpect>4.3
+    - pickleshare
+    - prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0
+    - jupyter
+    - ipykernel
+    - environment_kernels 
+    - ipython
+    - tensorflow-gpu<=1.15.5
