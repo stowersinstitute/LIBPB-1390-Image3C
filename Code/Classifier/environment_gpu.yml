@@ -9,8 +9,11 @@ dependencies:
     - scikit-learn
     - scikit-image
     - tifffile
+    - pims
+    - jpype1
     - matplotlib
     - pandas
+    - seaborn
     - traitlets
     - pygments
     - appnope
