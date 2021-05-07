@@ -360,5 +360,3 @@ Express are provided in the github location "...".
 2.  Ensure you have a strategy for managing file names and directories,
     the tiff images will be pre-pended according to the name specified
     here. You will get 1 tiff per image channel including BF and SSC.
-
-## 
