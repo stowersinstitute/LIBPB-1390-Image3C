@@ -1,5 +1,5 @@
 import sys
-import classifier_runner
+from image3c import classifier_runner
 
 print(sys.argv)
 params = dict()
@@ -16,12 +16,13 @@ num_classes = 7
 ### where to read images from
 params['datafile'] = ''  # path to the numpy memmap with images
 ### where are the labels
-params['labelsfile'] = '' # path to numpy memmap with labels
+params['labelsfile'] = '.npy' # path to numpy file with labels
 ### what clusters from the labels to use
 params['clusterlist'] = list(range(num_classes))
-params['combine'] = [[0, 8], [4, 7]] # any clusters from labels to combine
-params['tensorboard_log_dir'] = '' # path to tensorboard logs
-params['channels'] = [0,2,4] # what channels to use
+params['combine'] = [] #[[0, 8], [4, 7]] # any clusters from labels to combine
+params['tensorboard_log_dir'] = 'logs' # path to tensorboard logs
+params['num_channels'] = 3
+params['channels'] = [0,1,2] # what channels to use
 
 params['iterations'] = 1 #25000
 params['learning_rate'] = 0.001 #0.0006
