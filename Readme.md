@@ -26,7 +26,7 @@
 
 More information about the Imagestream®^X^ Mark II (Amnis Millipore
 Sigma) and how to use it can be found at
-https://www.luminexcorp.com/imagestreamx-mk-ii/\#documentation
+https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation
 
 A dataset is provided as example in the github location "...". These RIF
 files have been saved directly from the Imagestream after running ...
@@ -105,7 +105,7 @@ Tutorial video for calculating feature values in IDEAS is available in
 the github location "..."
 
 IDEAS® (Amnis Millipore Sigma) User Guide can be found at
-https://www.luminexcorp.com/imagestreamx-mk-ii/\#documentation
+https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation
 
 CIF and DAF files for all the files of the dataset we provided as
 example are in the github location "...".
