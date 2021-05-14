@@ -66,7 +66,7 @@ be installed with pip:
 
 Jupyter notebooks giving details about training and predicting
 data from the ImageStream and be found here:
-(Notebooks)[https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier]
+[Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
 ### How to crop and resize images
 
