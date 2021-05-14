@@ -1,68 +1,362 @@
-﻿
-# Instructions for running Image3C analysis
+﻿**Step-by-step instructions for running Image3C analysis**
 
-## Data acquisition on the imagestream
+**Data acquisition on the Imagestream**
 
- 1. Acquire data at the highest possible magnification that keeps most events in the field of view.
- 2. Color compensation controls should be collected for each channle used (Except brightfield).  
- 3. Ensure the camera is not saturated for any cells of interest by plotting raw signal intensity of gated events in the acqusition software.
- 4. Perform color compensation in IDEAS and apply to all rif files, resulting in cif/daf files.  
- 5. Selet a representative sample that contains all labels and generate features that capture elements of size, shape, texture and intensity for any channels/dyes of interest.  The exact complement of features used is not critical since typically many features have overlapping information content, but it's important to capture attributes from these major classes of elements above (size, shape, texture, intensity).
- 
- #### *Important: For texture features, use a mask that encompasses the whole cell.  For shape features, use a mask that captures the shape of the signal, e.g. morphology for fluorescence or adaptive erode for BF.*
- 
- 6. Now, do a batch analysis to apply this new daf file to all samples.  Then, export all feature values as FCS files in batch.  Be sure to have daf files that correspond exactly to the events exported to the FCS format.  I.e. don't export a subset of cells as fcs unless you also create a new cif file that matches the same events used.  If you export only nucleated events as FCS, generate a cif file with the exact same population.  This will become important later when analyzing and merging in new paramters in FCS Express.
+1.  Images of the events of interest should be acquired at the highest
+    possible magnification (60x) that fully includes the events in the
+    field of view and at a speed of max 1000 cell/min.
 
-## FCS file pre-processing for clustering
+2.  
 
- 1. Install R version 3.5.X and R studio (the current newest version as of April 2021 appears to work well with all libraries used). 
- 2. Install the following R packages: flowCore, flowStats, ggcyto, ggridges, stringr, Hmisc, caret, pheatmap, reshape2, data.table, RColorBrewer, edgeR, plyr, ggplot2, pastecs, igraph.
- 3. Create R studio project in a folder containing your fcs files exported from IDEAS. 
- 4. Open the script called "processFcsFiles.R" and run line by line.  
+3.  About 10,000 nucleated and focused events should be saved for each
+    sample and multiple samples should be run as biological replicates
+    (4-7 replicates).
 
-**Note where comments suggest that changes should be made based on your data set or to the code to accommodate differences between experiments, files, etc.  For example, you'll need to make and read-in a csv file called "RowLabels.csv" at line 59 for use in annotations.  This has to match your sample names exactly.  See the example files in the github location \LIBPB-1390-Image3C\1-ProcessFcsFiles\processing\RowLabels.csv and a full set of example files from this section.**
+4.  Events from single color control samples should be collected for
+    each channel used (except for brightfield).  
 
- 6. Be careful using gaussNorm().  It's possible to normalize out your results.  We find it's best to use only for DNA content staining drift correction, where the true nature of 2N and 4N peaks is known and can be judged whether you have changed the underlying nature of distributions.  It can also be used for antibody staining drift but use caution that what you're seeing is a result of staining 'drift' and not an intensity difference that represents a true result.
- 7. New fcs files are exported at the end of the script with "_processed.fcs" appended to the end.  These files will be imported into Vortex/Xshift for clustering next.
- 
+5.  The power of the lasers should be adjusted to not saturate the
+    camera for any cells of interest. This can be verified in the
+    acquisition software by plotting 'raw signal intensity' of events of
+    interest and checking that raw pixel values are below 4046 for
+    cellular events.
 
-## Clustering in Vortex
+6.  More information about sample preparation and data collection can be
+    found in the related manuscript.
 
- 1. Install vortex from here:  https://github.com/nolanlab/vortex/releases
- 2. Instructions for use are here: https://github.com/nolanlab/vortex/wiki/Getting-Started
- 3. After Vortex is installed, import your processed FCS files.  Apply import settings of your preference, it depends on the data somewhat, but for example probably not necessary to transform again since we did it in R already for fluroescent parameters.
- 4. Run clustering with K (number of nearest neighbors)  across a range of values from approximately 10-150, then select all clusters and choose validation, and find elbow point for cluster number.
- 5. Next, select the clustering result with the desired value for "K", then right click in the top-right list of clusters and choose "create graph -> force directed layout".  Specify the number of events per cluster you want to use.  Be sure and get enough to each file has decent representation.  Let it run until it reaches equilibrium.
- 6. Stop the layout and run "export graph as graphml" and "export cell coordinates" below.  Save the files as "FDL.graphml" and "FDL_coords.csv" respectively together in a folder for processing later.  Export images if you like, but we'll be plotting this again in R.
- 7. Back in the main Vortex windows, right click your cluster result in the bottom left window and select "Export as csv".  Save this file as "ClusterIDs.csv".  Then, right click the cluster result again and choose "Computer group stats per cluster".  Select all in the results (control-A) then paste to excel and save this file as "GroupStatsPerCluster.csv".  Finally, click into the window at the top right again, select all with "cntl-A" and copy with "cntl-C" and past into a new excel sheet.  Save this as "ClusterFeatureAverages.csv".
- 8. You should have the following tabular data items now coming from Vortex:
-     * ClusterIDs.csv
-     * GroupStatsPerCluster.csv
-     * ClusterFeatureAverages.csv
-     * FDL_coords.csv
-     * FDL.graphml
+More information about the Imagestream®^X^ Mark II (Amnis Millipore
+Sigma) and how to use it can be found at
+https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation
 
-**Reference videos for Vortex clustering process and link**
+A dataset is provided as example in the github location "...". These RIF
+files have been saved directly from the Imagestream after running ...
+replicate for each of the ... analyzed conditions.
+
+**Data normalization** **and feature value** **calculation** **in**
+**IDEAS**
+
+1.  Open IDEAS software (link, free for download once an Amnis user
+    account is created)
+
+2.  Perform color compensation according to the software documentation.
+
+3.  Apply the color compensation to all the RIF files using the batch
+    analysis method. It can be done leaving the "daf file" blank if you
+    just wish to compensate (you will create the daf file which contains
+    regions and feature values next).
+
+4.  Select a representative sample that contains all labels and use this
+    to create masks. Make masks in the following manner (see the IDEAS
+    documentation for more info how the specific steps for creating
+    masks).
+
+    1.  *For texture features, use a mask that encompasses the whole
+        cell such as adaptive erode on bright field channel. Note, you
+        can* *use that same mask to calculate texture features for other
+        channels, even though it's created using brightfield signal.*
+
+    2.  *For shape features, use a mask that captures the shape of the
+        signal* *such as a "morphology" mask.*
+
+    3.  *For side scatter, create a mask that includes the "spots" of
+        intensity that are often seen with this channel. But a
+        "morphology" mask is adequate if you're unsure.*
+
+    4.  
+
+5. Calculate feature values that describe size, shape, texture, and
+    intensity for any channels/dyes of interest. *[Important]{.ul}:*
+    *The* *exact complement* *of features used is not critical since
+    typically many features have overlapping information content* *and
+    we will remove the* *redundant* *once later in the analysis.* *We
+    suggest* *capturing attributes from these major classes:* *size,
+    shape, texture, and* *intensity.* *The "feature finder" can be used
+    to create multiple features* *at once based on channel and type of
+    feature (shape, area, texture, intensity). Refer to the
+    documentation for use of the feature finder. Once done, save the
+    analysis which will create the daf file you'll use for batching the
+    rest of the* *files.*
+
+6.  Do a batch analysis to apply this new DAF file to all samples
+    (calculates features for all files). This can be done by saving the
+    previous file once features are calculated and closing the file
+    (leave IDEAS open). Then go to "tools -\> batch", and click "add
+    batch". Add all the cif files (or rif files if not yet compensated),
+    select the daf file you just made above as the daf template. If
+    running on rif files, choose the daf file from before, or a ctm or
+    cif file, as compensation matrix. Click add back and click "Run
+    Batch".
+
+7.  Export all feature values as FCS files (per-object feature matrices)
+    in batch. See "tools" and "export feature values". Choose the
+    population to export (must match other work in this process, e.g.
+    nucleated cells), select the feature to export, select "fcs file" as
+    type. *[Important]{.ul}:* *At the end you want* *to have* *a DAF
+    file, a CIF file and a FCS file, each of them* *including exactly*
+    *the* *same subset of events. For example,* *if you export only
+    nucleated events* *for the* *FCS* *file, generate also* *a CIF file
+    and a DAF file* *with the exact same population. This will become
+    important later when* *we will use FCS Express.*
+
+More information about feature descriptions and selection can be found
+in the related manuscript.
+
+Tutorial video for calculating feature values in IDEAS is available in
+the github location "..."
+
+IDEAS® (Amnis Millipore Sigma) User Guide can be found at
+https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation
+
+CIF and DAF files for all the files of the dataset we provided as
+example are in the github location "...".
+
+## FCS file pre-processing in R for clustering 
+
+1.  Install the newest version of R and R Studio.
+    https://cran.r-project.org
+
+2.  Install the following R packages: flowCore, flowStats, ggcyto,
+    ggridges, stringr, Hmisc, caret, pheatmap, reshape2, data.table,
+    RColorBrewer, edgeR, plyr, ggplot2, pastecs, igraph.
+
+3.  Create R studio project in a folder containing your FCS files
+    exported from IDEAS.
+
+4.  Open the script called \"1_processFcsFiles.R\" in the github
+    location "... Code". 
+
+5.  Run the code line by line. *[Important]{.ul}:* *Comments will*
+    *suggest you* *where* *changes should be made based on your
+    specific* *dataset* *to accommodate differences between experiments,
+    files, etc. For example, you* *will need to make and read-in a*
+    *CSV* *file called \"RowLabels.csv\" at line 59 for use in
+    annotations. This has to exactly* *match your sample names. See the
+    example files in the github location
+    \\LIBPB-1390-Image3C\\1-ProcessFcsFiles\\processing\\RowLabels.csv
+    and* *a full set of example files from this section.*
+	
+6.  Trim redundant features with high correlation values to each other
+    (line ...).
+
+7.  Identify and remove outlier samples (line ...).
+
+8.  Transform fluorescence intensity values with estimateLogicle() and
+    transform() functions (line ...).
+
+9.  Normalize and scale/center DNA intensity using gaussNorm() function
+    (line ...). *[Important]{.ul}:* *Although it* *is possible to
+    normalize out all* *your results, we* *prefer to use only for DNA
+    content staining drift correction, where the true nature of 2N and
+    4N peaks is known and can be judged whether you have changed the
+    underlying nature of distributions.* *This normalization can also be
+    used for antibody staining drift but use caution* *in deciding if
+    this is a result of staining \'drift\'* *or a* *real intensity
+    difference* *between samples.* 
+
+10. New FCS files are exported at the end of the script with
+    \"\_processed.fcs\" appended to the end using writeflowSet()
+    function (line ...). These files will be imported into VorteX
+    Clustering Environment/Xshift for clustering.
+
+Example files that are required in the code and example files that
+should be obtained running this code are provided in the github location
+"...".
+
+The new FCS files for the example dataset we provided are in the github
+location "...".
+
+## Clustering the events in VorteX Clustering Environment/Xshift 
+
+1.  Install VorteX Clustering Environment from here:
+    <https://github.com/nolanlab/vortex/releases>
+
+2.  Import your processed FCS files. Apply import settings of your
+    preference but you shouldn't need to apply any transformation since
+    this was done in R for fluorescent parameters.
+
+3.  Run X-Shift k-nearest-neighbor clustering with K (number of nearest
+    neighbors) across a range of values from approximately 10 to 150.
+    Select all clusters, choose validation and find elbow point for
+    cluster number. Or let the software auto-select the range of K
+    values from the data.
+
+4.  Select the clustering result with the desired value for K. To do
+    this, click-shift to select all resulting clusterings for all K
+    values, right click and choose "find elbow point for cluster
+    number". This is based on an optimization for finding an appropriate
+    cluster number. Refer to the Xshift publication for details.
+
+5.  Right click in the top-right list of clusters and choose \"create
+    graph -\> force directed layout (FDL)\". Specify the number of
+    events per cluster you want to use. Use enough data points so that
+    rare populations contain several events. This depends on the data.
+
+6.  Let it run until it reaches equilibrium. You will see points no
+    longer moving significantly. It may take minutes to hours depending
+    on data size to reach this point.
+
+7.  You can visually attempt to evaluate at this step if you have
+    over-clustered. If you see one 'blob' population that's comprised of
+    multiple clusters (by color) thean you may find the data is
+    over-clustered. In such a case, it may be advantageous to select a K
+    value that produces fewer clusters.
+
+8.  Stop the layout and run \"export graph as graphml\" and \"export
+    cell coordinates\" below. Save the files as \"FDL.graphml\" and
+    \"FDL_coords.csv\" respectively. If you would like, you can export
+    images, but we will plot this in R.
+
+9. Back in the main Vortex windows, right click your cluster result in
+    the bottom left window and select \"Export as csv\". Save this file
+    as \"ClusterIDs.csv\".
+
+10. Right click the cluster result again and choose \"Computer group
+    stats per cluster\". Select all in the results, copy and paste to
+    excel and save this file as \"GroupStatsPerCluster.csv\".
+
+11. Click into the window at the top right again, select all, copy and
+    paste into a new excel sheet. Save this as
+    \"ClusterFeatureAverages.csv\".
+
+12. You should have the following tabular data items now coming from
+    Vortex:
+
+    -   ClusterIDs.csv (master table with every event with its cluster
+        assignment and original sample ID)
+
+    -   GroupStatsPerCluster.csv (table of counts of events per cluster
+        and per sample)
+
+    -   ClusterFeatureAverages.csv (table of the average feature values
+        for each cluster)
+
+    -   FDL_coords.csv (event coordinates in a 2D space)
+
+    -   FDL.graphml (a graph of a subset of cells for each set of
+        samples)
+
+Tutorial video for clustering events in Vortex Clustering Environment is
+available in the github location "..."
+
+Instructions for using VorteX Clustering Environment can be found at
+https://github.com/nolanlab/vortex/wiki/Getting-Started
+
+Example files that should be obtained at the end of the analysis in
+VorteX Clustering Environment are provided in the github location "...".
 
 ## Analysis of Clustering results in R
 
-1. Create an R studio project in the folder with the tabular data above.  
-2. Open the script called "processClusteringResults.R".
-3. Line 261 must specify number of conditions.
-4. Section under GLM method line 278 must be customized for your variables.  Purpose is to perform negative binomial modeling on cell counts per cluster between conditions of interest to find clusters that are present in different amounts between groups or variables.
-5. Save any resulting and desired plots manually in R studio (Force directed layout FDL plots per condition are saved automatically though).
-6. Make note of any statistically significant clusters between groups or variables.  These can be displayed in FCS Express in the next steps.
-7. Copy the new csv files generated (one per sample) into a new folder to be used in the next section.  These csv files contain feature values per sample, and also cluster ID, FDL plot coordinates and spanning tree plot coordinates per cell.  This data can be merged into daf files in FCS Express using the "R add parameters" transformation option.
+1.  Create an R studio project in the folder with the tabular data
+    above.
 
-## Data exploration and analysis in FCS Express
+2.  Open the script called \"2_processClusteringResults.R\" in the
+    github location "...".
 
- 1. Open FCS Express.  Under File -> options -> startup, make sure ""Start the De Novo Software application external application bridge on login" is selected. Restart FCS Express.
- 2. Open the R script called "AddClusterIDs_FCSe.R" and ensure any file paths point to the folder where your new csv files are located.  Also, be sure that line 42 is taking columns 1, 4, and the last 4 columns (6 total) from your csv files.  This will ensure we can merge in the cluster IDs and plot coordinates into the daf files.
- 3. Open a daf file in FCS Express.
- 4. Rename the corresponding csv file "Template.csv".  I usually make a copy first and rename that, keeping the set with original names.
- 5. In FCS Express, go to Tools -> Transformations -> R add parameters.
- 6. Point it to the "AddClusterIDs_FCSe.R" script and select "object number" for export. Ensure "events as rows" is checked.  
- 7. Drag the transformation to a plot, it should run and generate two test files (just for debugging) in the folder with the csv files called "NewMatrix" and "OrigMatrix".  If these aren't made, it's not running.  Check all the above steps carefully.
- 8. If it's working, you should have new parameters now for ClusterID, FDL-X, FDL-Y, MST-X and MST-Y.  
- 9. Cell images for cells in a given cluster or position in MST or FDL plots can now be displayed in a data grid for confirmation of their identities or making figures.
+3.  Run the code line by line. *[Important]{.ul}: Specify number of
+    conditions in line 261.*
 
+4.  Perform statistical analysis between conditions customizing the
+    section under GLM method line 278 based on your variables. The
+    purpose is to perform negative binomial modeling on cell counts per
+    cluster between conditions of interest to find changes in cluster
+    abundance between groups or variables.
+
+5.  Save any desired plots manually in R studio (Force directed layout
+    FDL plots are saved automatically for each condition).
+
+6.  Make notes of any cluster abundance statistically significantly
+    different between groups or variables. These can be displayed in FCS
+    Express in the next steps.
+
+7.  Split (in the R script) the merged clustering results back into
+    original files coping the new CSV files generated (one per sample)
+    into a new folder to be used in the next section. These CSV files
+    contain feature values per sample, cluster ID, FDL plot coordinates
+    and spanning tree plot coordinates per each cell (or data point).
+    This data can be merged into data and images within the DAF files in
+    FCS Express using the \"R add parameters\" transformation option and
+    provided script. (see the section below)
+
+8.  These data can be used to visualize Feature Values by Clusters and
+    to plot FDL colored by cluster IDs.
+
+9. Save R script to any edits made are captured and can be used to
+    quickly re-process again later.
+
+Example files that are required in the code and example files that
+should be obtained running this code are provided in the github location
+"...".
+
+The final CSV files for the example dataset we provided are in the
+github location "...".
+
+## Data exploration and event visualization in FCS Express
+
+1.  Open FCS Express.
+
+2.  Under File -\> options -\> startup, make sure \"Start the De Novo
+    Software application external application bridge on login\" is
+    selected.
+
+3.  Restart FCS Express.
+
+4.  Open the R script called \"3_AddClusterIDs_FCSe.R\" in the github
+    location "..." and ensure any file paths point to the folder where
+    your last CSV files are located.
+
+5.  Important - be sure that line 42 is taking columns 1, 4, and then
+    the last four columns (6 total) from your CSV files. This will
+    ensure we can merge in the cluster IDs and plot coordinates into the
+    DAF files. The last four columns will have different column number
+    based on the total number of features in the csv file. This is why
+    specifying these column numbers is important, because we want to get
+    the last four columns which contain "FDL-X", "FDL-Y", "MST-X" and
+    "MST-Y" columns. For plotting force direct plots and minimum
+    spanning tree plots in FCS Express, that can then be used for gating
+    to show image galleries.
+
+6.  Open a DAF file in FCS Express.
+
+7.  Rename the corresponding CSV file \"Template.csv\". We suggest to
+    make a copy first and rename that, keeping the set with original
+    names.
+
+8.  In FCS Express, go to Tools -\> Transformations -\> R add parameters
+    ("R integration" feature).
+
+9.  Point it to the \"3_AddClusterIDs_FCSe.R\" script and select
+    \"object number\" for export. Ensure \"events as rows\" is checked.
+
+10. Drag the transformation to a plot, it should run and generate two
+    test files (just for debugging) in the folder with the CSV files
+    called \"NewMatrix\" and \"OrigMatrix\". If these are not made, the
+    code is not running properly. Check all the above steps carefully.
+
+11. New parameters now are available for ClusterID, FDL-X, FDL-Y, MST-X
+    and MST-Y.
+
+12. Images of events in a given cluster or position in MST or FDL plots
+    can now be displayed in a data grid for cluster annotation or for
+    making figures. Subsets of events can be gated, and the
+    corresponding images can be displayed. This data can be used to
+    visualize Cell Images by Clusters. You can plot feature values,
+    clustering results and FDL.
+
+Tutorial video for exploring and visualizing data in FCS Express is
+available in the github location "..."
+
+Instructions for using FCS Express can be found at ...
+
+Example files that should be obtained at the end of the analysis in FCS
+Express are provided in the github location "...".
+
+## Exporting tiff images for neural network training & analysis
+
+1.  Export/open raw images (RIF files) by selecting the Tools menu at
+    the top of the screen and then "export tiff images". In the dialog,
+    select the population (gate) that matches what was used for previous
+    analysis, then choose 16-bit and raw options from the radio buttons.
+
+2.  Ensure you have a strategy for managing file names and directories,
+    the tiff images will be pre-pended according to the name specified
+    here. You will get 1 tiff per image channel including BF and SSC.
