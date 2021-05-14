@@ -33,6 +33,9 @@ creating the conda environment and installing all needed dependencies. If you ar
 MacOS or don't have an NVIDA GPU with CUDA use environment.yml. If you are on Windows
 or Linux and have a CUDA GPU then use environment_gpu.yml
 
+Creating the conda environment in this way also installs the correct CUDA
+libraries in the conda python environment.
+
 In the following command, a conda environment
 named `image3c` is created with python 3.7:
 
@@ -41,8 +44,6 @@ named `image3c` is created with python 3.7:
 if on windows or linux with a CUDA gpu
 
 `conda env create -f environment_gpu.yml`
-
-`conda create -n image3c python=3.7`
 
 To activate this environment, use this command:
 `conda activate image3c`
