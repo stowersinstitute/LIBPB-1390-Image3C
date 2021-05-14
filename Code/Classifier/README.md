@@ -11,9 +11,11 @@
   - cuDNN 7.6 (See below to install with conda)
   - CUDA 10.2 (See below to install with conda)
 
-The steps below install the CUDA libraries during the conda environment setup,
+The steps 
+[below](README.md#create-a-conda-environment) 
+install the CUDA libraries during the conda environment setup,
 but if you want more information about it see these links:
-- For more detail about using conda to install CUDA ee this article:
+- For more detail about using conda to install CUDA see this article:
   [Install CUDA with conda](https://towardsdatascience.com/managing-cuda-dependencies-with-conda-89c5d817e7e1)
 
 - For more information regarding installation of CUDA, see this document:
