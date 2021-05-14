@@ -62,10 +62,18 @@ environment, so no other installation command are needed.
 ### Install image3c from pip
 If you don't want to create an environment as described above, image3c can
 be installed with pip:
+
 ```pip install image3c```
+
+
+# How to use Image3c
+
+The main documentation can be found at:
+[Image3c Github](https://github.com/stowersinstitute/LIBPB-1390-Image3C/)
 
 Jupyter notebooks giving details about training and predicting
 data from the ImageStream and be found here:
+
 [Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
 ### How to crop and resize images
