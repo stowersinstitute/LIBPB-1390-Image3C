@@ -28,3 +28,4 @@ dependencies:
     - environment_kernels 
     - ipython
     - tensorflow-gpu<=1.15.5
+    - image3c
