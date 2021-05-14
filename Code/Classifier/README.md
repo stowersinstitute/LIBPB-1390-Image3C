@@ -9,7 +9,15 @@
     - Linux : >= 410.48
     - Windows : >= 411.31
   - cuDNN 7.6 (See below to install with conda)
-  - CUDA 10.0 (See below to install with conda)
+  - CUDA 10.2 (See below to install with conda)
+
+The steps below install the CUDA libraries during the conda environment setup,
+but if you want more information about it see these links:
+- For more detail about using conda to install CUDA ee this article:
+  [Install CUDA with conda](https://towardsdatascience.com/managing-cuda-dependencies-with-conda-89c5d817e7e1)
+
+- For more information regarding installation of CUDA, see this document:
+  [NVIDIA CUDA](https://developer.download.nvidia.com/compute/cuda/10.0/Prod/docs/sidebar/CUDA_Quick_Start_Guide.pdf)
 
 ### Install miniconda (recommended) or anaconda
 We recommend using [conda](https://docs.conda.io/projects/conda/en/latest/)
@@ -48,28 +56,17 @@ if on windows or linux with a CUDA gpu
 To activate this environment, use this command:
 `conda activate image3c`
 
-### Install the CUDA libraries with conda
+The image3c python package is installed during the creation of the conda
+environment, so no other installation command are needed.
 
-The classifier portion of Image3c was built using TensorFlow version 1.15, and
-this requires CUDA 10.0 and cuDNN 7.6. Fortunately these libraries can be
-installed with conda. 
-The commands to install CUDA with conda are as follows:
+### Install image3c from pip
+If you don't want to create an environment as described above, image3c can
+be installed with pip:
+```pip install image3c```
 
-1. `conda install cudatoolkit=10.0.130`
-2. `conda install cudnn=7.6.0`
-
-For more detail about using conda to install CUDA ee this article:
-[Install CUDA with conda](https://towardsdatascience.com/managing-cuda-dependencies-with-conda-89c5d817e7e1)
-
-For more information regarding installation of CUDA, see this document:
-[NVIDIA CUDA](https://developer.download.nvidia.com/compute/cuda/10.0/Prod/docs/sidebar/CUDA_Quick_Start_Guide.pdf)
-
-
-### Install image3c as a python package
-Download the image3c code from github using git or by downloading and extracting
-the zip file.
-The python package manager pip can be install tensorflow and it's dependencies.
-- should have a requirements.txt file
+Jupyter notebooks giving details about training and predicting
+data from the ImageStream and be found here:
+(Notebooks)[https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier]
 
 ### How to crop and resize images
 
