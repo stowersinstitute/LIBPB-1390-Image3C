@@ -12,16 +12,6 @@ def read(fname):
     return codecs.open(file_path, encoding='utf-8').read()
 
 
-# Add your dependencies in requirements.txt
-# Note: you can add test-specific requirements in tox.ini
-'''
-if sys.platform == 'darwin':
-    rtf = 'tensorflow==1.15'
-else:
-    rtf = 'tensorflow-gpu==1.15'
-
-requirements = [rtf]
-'''
 requirements = []
 with open('requirements.txt') as f:
     for line in f:
@@ -36,7 +26,7 @@ setup(
     author='Chris Wood',
     author_email='cjw@stowers.org',
     license='Apache Software License 2.0',
-    url='',
+    url='https://github.com/stowersinstitute/LIBPB-1390-Image3C',
     description='Classifier for Image3c',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
