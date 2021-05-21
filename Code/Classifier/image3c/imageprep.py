@@ -252,7 +252,8 @@ def process_tifs(xdir, outdir='ImagesToTrain'):
         outdir = "ImagesToTrain"
 
     try:
-        os.makedirs(outdir)
+        if not os.path.exists(outdir):
+            os.makedirs(outdir)
     except:
         print('Cannot make', outdir)
         pass
