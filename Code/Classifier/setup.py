@@ -22,7 +22,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='image3c',
-    version="0.1",
+    version="0.1.1",
     author='Chris Wood',
     author_email='cjw@stowers.org',
     license='Apache Software License 2.0',
