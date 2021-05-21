@@ -1,32 +1,31 @@
-﻿**Step-by-step instructions for running Image3C analysis**
+﻿# Step-by-step instructions for running Image3C analysis
 
-**Data acquisition on the Imagestream**
+## Data acquisition on the Imagestream
 
 1.  Images of the events of interest should be acquired at the highest
     possible magnification (60x) that fully includes the events in the
     field of view and at a speed of max 1000 cell/min.
 
-2.  
-
-3.  About 10,000 nucleated and focused events should be saved for each
+2.  About 10,000 nucleated and focused events should be saved for each
     sample and multiple samples should be run as biological replicates
     (4-7 replicates).
 
-4.  Events from single color control samples should be collected for
+3.  Events from single color control samples should be collected for
     each channel used (except for brightfield).  
 
-5.  The power of the lasers should be adjusted to not saturate the
+4.  The power of the lasers should be adjusted to not saturate the
     camera for any cells of interest. This can be verified in the
     acquisition software by plotting 'raw signal intensity' of events of
     interest and checking that raw pixel values are below 4046 for
     cellular events.
 
-6.  More information about sample preparation and data collection can be
+5.  More information about sample preparation and data collection can be
     found in the related manuscript.
 
 More information about the Imagestream®^X^ Mark II (Amnis Millipore
-Sigma) and how to use it can be found at
-https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation
+Sigma) and how to use it can be found at:
+
+<https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>
 
 A dataset is provided as example in the github location "...". These RIF
 files have been saved directly from the Imagestream after running ...
@@ -61,8 +60,6 @@ replicate for each of the ... analyzed conditions.
     3.  *For side scatter, create a mask that includes the "spots" of
         intensity that are often seen with this channel. But a
         "morphology" mask is adequate if you're unsure.*
-
-    4.  
 
 5. Calculate feature values that describe size, shape, texture, and
     intensity for any channels/dyes of interest. *[Important]{.ul}:*
@@ -104,8 +101,9 @@ in the related manuscript.
 Tutorial video for calculating feature values in IDEAS is available in
 the github location "..."
 
-IDEAS® (Amnis Millipore Sigma) User Guide can be found at
-https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation
+IDEAS® (Amnis Millipore Sigma) User Guide can be found at:
+
+<https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>
 
 CIF and DAF files for all the files of the dataset we provided as
 example are in the github location "...".
@@ -113,7 +111,7 @@ example are in the github location "...".
 ## FCS file pre-processing in R for clustering 
 
 1.  Install the newest version of R and R Studio.
-    https://cran.r-project.org
+    <https://cran.r-project.org>
 
 2.  Install the following R packages: flowCore, flowStats, ggcyto,
     ggridges, stringr, Hmisc, caret, pheatmap, reshape2, data.table,
@@ -238,8 +236,9 @@ location "...".
 Tutorial video for clustering events in Vortex Clustering Environment is
 available in the github location "..."
 
-Instructions for using VorteX Clustering Environment can be found at
-https://github.com/nolanlab/vortex/wiki/Getting-Started
+Instructions for using VorteX Clustering Environment can be found at:
+
+<https://github.com/nolanlab/vortex/wiki/Getting-Started>
 
 Example files that should be obtained at the end of the analysis in
 VorteX Clustering Environment are provided in the github location "...".
