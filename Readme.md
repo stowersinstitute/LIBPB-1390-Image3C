@@ -440,7 +440,9 @@ data from the ImageStream and be found here:
 
 [Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
-[Image Pre-processing](4-Classifier/image_preprocessing.ipynb)
-[Training the Classifier](4-Classifier/training_the_classifier.ipynb)
-[Performance Evaluation](4-Classifier/performance_testing.ipynb)
-[Predicting a new dataset](4-Classifier/predict_new_dataset.ipynb)
+Links to classifier notebooks:
+
+- [Image Pre-processing](4-Classifier/image_preprocessing.ipynb)
+- [Training the Classifier](4-Classifier/training_the_classifier.ipynb)
+- [Performance Evaluation](4-Classifier/performance_testing.ipynb)
+- [Predicting a new dataset](4-Classifier/predict_new_dataset.ipynb)
