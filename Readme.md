@@ -430,17 +430,17 @@ be installed with pip:
 ```pip install image3c```
 
 
-# How to use Image3c
+### How to use the Image3c classifier
 
-The main documentation can be found at:
-[Image3c Github](https://github.com/stowersinstitute/LIBPB-1390-Image3C/)
+The documentation for using the Image3C classifier is in jupyter notebooks that can be downloaded to run on local workstations.
+
 
 Jupyter notebooks giving details about training and predicting
 data from the ImageStream and be found here:
 
 [Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
-Links to classifier notebooks:
+Links to individual classifier notebooks:
 
 - [Image Pre-processing](4-Classifier/image_preprocessing.ipynb)
 - [Training the Classifier](4-Classifier/training_the_classifier.ipynb)
