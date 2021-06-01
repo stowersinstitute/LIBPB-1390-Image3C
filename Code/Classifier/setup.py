@@ -22,7 +22,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='image3c',
-    version="0.1",
+    version="0.1.2",
     author='Chris Wood',
     author_email='cjw@stowers.org',
     license='Apache Software License 2.0',
@@ -36,7 +36,6 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'Framework :: napari',
         'Topic :: Software Development :: Testing',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.7',
