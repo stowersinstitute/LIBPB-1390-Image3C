@@ -10,8 +10,6 @@ To obtain the notebooks, this git repository can be cloned:
 
 or zip files containing the notebooks can be downloaded from the Stowers Original Data Repository ftp site.
 
-A zip file with just the notebooks can be downloaded from:
-
 The notebooks used in the example notebooks can be found on the original data ftp for the paper:
 
 [Classifier Notebooks](https://www.stowers.org/research/publications/odr)
