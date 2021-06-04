@@ -5,9 +5,10 @@ This folder contains notebooks that show how to use the classifier part of image
 4) [Predicting a new dataset](predict_new_dataset.ipynb)
 
 To obtain the notebooks, this git repository can be cloned:
+
 ```git clone git@github.com:stowersinstitute/LIBPB-1390-Image3C.git```
 
-or by downloading zip files containing the notebooks from the Stowers Original Data Repository.
+or zip files containing the notebooks can be downloaded from the Stowers Original Data Repository ftp site.
 
 A zip file with just the notebooks can be downloaded from:
 
