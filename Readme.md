@@ -450,11 +450,11 @@ or zip files containing the notebooks can be downloaded from the Stowers Origina
 
 The notebooks used in the example notebooks can be found on the original data ftp for the paper:
 
-[Classifier Notebooks](https://www.stowers.org/research/publications/odr)
+[Classifier Notebooks](ftp://odr.stowers.org/LIBPB-1390)
 
 The notebooks and all of the data used in the classifier example can be downloaded here (3.3 GB):
 
-[Classifier Notebooks and Data](https://www.stowers.org/research/publications/odr) (3.3 GB)
+[Classifier Notebooks and Data](ftp://odr.stowers.org/LIBPB-1390) (3.3 GB)
 
 #### Links to individual classifier notebooks:
 
