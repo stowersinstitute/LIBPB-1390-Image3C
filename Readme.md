@@ -440,9 +440,26 @@ data from the ImageStream and be found here:
 
 [Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
-Links to individual classifier notebooks:
+### Dowload classifier data
+
+To obtain the notebooks, this git repository can be cloned:
+
+```git clone git@github.com:stowersinstitute/LIBPB-1390-Image3C.git```
+
+or zip files containing the notebooks can be downloaded from the Stowers Original Data Repository ftp site.
+
+The notebooks used in the example notebooks can be found on the original data ftp for the paper:
+
+[Classifier Notebooks](ftp://odr.stowers.org/LIBPB-1390)
+
+The notebooks and all of the data used in the classifier example can be downloaded here (3.3 GB):
+
+[Classifier Notebooks and Data](ftp://odr.stowers.org/LIBPB-1390) (3.3 GB)
+
+#### Links to individual classifier notebooks:
 
 - [Image Pre-processing](4-Classifier/image_preprocessing.ipynb)
 - [Training the Classifier](4-Classifier/training_the_classifier.ipynb)
 - [Performance Evaluation](4-Classifier/performance_testing.ipynb)
 - [Predicting a new dataset](4-Classifier/predict_new_dataset.ipynb)
+
