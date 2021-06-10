@@ -434,7 +434,6 @@ be installed with pip:
 
 The documentation for using the Image3C classifier is in jupyter notebooks that can be downloaded to run on local workstations.
 
-
 Jupyter notebooks giving details about training and predicting
 data from the ImageStream and be found here:
 
