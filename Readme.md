@@ -294,20 +294,28 @@ Express Plus are provided in the github location "...".
 
 ## Exporting tiff images for neural network training and analysis
 
-1.  Export/open raw images (RIF files) by selecting the Tools menu at
-    the top of the screen and then "Export tiff images". In the dialog,
-    select the population (gate) that matches what was used for previous
-    analysis, then choose 16-bit and raw options from the radio buttons.
+1.  Open IDEAS software (Amnis Millipore, free for download once an Amnis user
+    account is created).
+    
+2.  Open the raw images (RIF files).
 
-2.  Ensure you have a strategy for managing file names and directories,
-    the tiff images will be pre-pended according to the name specified
-    here. You will get one tiff per image channel including Bright Field (BF) and Side Scatter (SSC).
+3.  Select the Tools menu at the top of the screen, click "Export tiff images", select the population (gate) that matches what was used for previous
+    analysis, and choose "16-bit" as Bit depth and "raw (for analysis)" as pixel data.
 
+    *Important: It is suggested to have a strategy for managing file names and directories. The tiff images will be pre-pended according to the name specified
+    here. One tiff per image per channel, including Bright Field (BF) and Side Scatter (SSC), is going to be generated.*
 
-## Instructions for training and prediction
+IDEAS® (Amnis Millipore Sigma) User Guide can be found at: <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
+
+Tutorial video for exporting TIFF images in IDEAS is
+available.
+
+Example files are provided in the github location "...".
+
+## Instructions for neural network training and prediction
 
 ### Installation of python
-- For best performance an NVIDIA GPU with CUDA is recommended
+- For best performance an NVIDIA GPU with CUDA is recommended.
 
 #### Install requirements for TensorFlow
 - tensorflow_gpu-1.15.0	3.3-3.7
@@ -320,7 +328,7 @@ Express Plus are provided in the github location "...".
 The steps [below](README.md#create-a-conda-environment) 
 install the CUDA libraries during the conda environment setup,
 but more information about it are available at these links:
-- For more detail about using conda to install CUDA see this article:
+- For more detail about using conda to install CUDA, see this article:
   [Install CUDA with conda](https://towardsdatascience.com/managing-cuda-dependencies-with-conda-89c5d817e7e1)
 
 - For more information regarding installation of CUDA, see this document:
@@ -343,7 +351,7 @@ Anaconda Prompt command using the search tool.
 
 ### Create a conda environment
 Image3C requires version 3.7 of python and TensorFlow version 1.15, so a fresh conda
-enviroment is recommended. We have written an environment file the takes care of
+enviroment is recommended. We have written an environment file that takes care of
 creating the conda environment and installing all needed dependencies. If you are on
 MacOS or do not have an NVIDA GPU with CUDA use environment.yml. If you are on Windows
 or Linux and have a CUDA GPU then use environment_gpu.yml.
@@ -378,7 +386,7 @@ be installed with pip:
 The documentation for using the Image3C classifier is in jupyter notebooks that can be downloaded to run on local workstations.
 
 Jupyter notebooks giving details about training and predicting
-data from the ImageStream and be found here:
+data from the ImageStream can be found here:
 
 [Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
