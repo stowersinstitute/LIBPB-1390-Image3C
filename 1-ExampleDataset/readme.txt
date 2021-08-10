@@ -1,3 +1,3 @@
-Find files in the shared folder below:
+Find files in the Stowers ODR in the directory "1-ExampleDataset" at the url below:
 
-https://stowersinstitute-my.sharepoint.com/:f:/g/personal/aai_stowers_org/EvONHYG_cHJLgdoeghFJYKABz6fp3MyqmYapWTz1-tfATQ?e=AkjiMl 
+http://www.stowers.org/research/publications/libpb-1390
