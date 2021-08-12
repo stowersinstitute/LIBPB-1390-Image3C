@@ -4,7 +4,7 @@
 
 1.  Images of the events of interest should be acquired at the highest
     possible magnification (60x) that fully includes the events in the
-    field of view and at a speed of max 1,000 cells/min.
+    field of view and at a speed of max 1,000 cells/min. 
 
 2.  About 10,000 nucleated and focused events should be saved for each
     sample and multiple samples should be run as biological replicates
@@ -22,9 +22,9 @@
 More information about sample preparation and data collection can be found in the manuscript “Image3C, a multimodal image-based and label independent integrative method for single-cell analysis” (Accorsi, Peuß, Box et al., 2021, eLife https://elifesciences.org/articles/65372).
 
 More information about the ImageStream Mark II (Amnis Millipore
-Sigma) and how to use it can be found at: <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
+Sigma) and how to use it can be found at <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
 
-A dataset is provided as example at the Stowers Original Data Repository at http://www.stowers.org/research/publications/libpb-1390. These RIF files have been saved directly from the ImageStream after running 5 replicates for each of the 2 analyzed conditions (Females Untreated and Female EDTA Treatment).
+RIF files, saved directly from the ImageStream, are available in individual folders at the Stowers Original Data Repository at http://www.stowers.org/research/publications/libpb-1390.
 
 ## Data normalization and feature value calculation in IDEAS
 
@@ -77,11 +77,11 @@ A dataset is provided as example at the Stowers Original Data Repository at http
 
 More information about feature descriptions and selection can be found in the manuscript “Image3C, a multimodal image-based and label independent integrative method for single-cell analysis” (Accorsi, Peuß, Box et al., 2021, eLife https://elifesciences.org/articles/65372).
 
-IDEAS (Amnis Millipore Sigma) User Guide can be found at: <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
+IDEAS (Amnis Millipore Sigma) User Guide can be found at <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
 
-Tutorial videos for creating masks and calculating feature values in IDEAS are available in the GitHub location https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/TutorialVideos.
+Tutorial videos for creating masks and calculating feature values in IDEAS are available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/2-TutorialVideos.
 
-CIF, DAF and FCS files are provided in the GitHub.
+CIF, DAF and FCS files of an example dataset are available in the folder 1_files_exported_from_IDEAS at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.
 
 ## FCS file pre-processing in R for clustering 
 
@@ -90,20 +90,19 @@ CIF, DAF and FCS files are provided in the GitHub.
 2.  Create an R studio project in a folder containing your FCS files just
     exported from IDEAS.
 
-3.  Open the script called \"1_processFcsFiles.R\" in the github
-    location "... Code". 
+3.  Open the script called "processFcsFiles.R" available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/Code. 
 
 4.  Run the code line by line to trim redundant features with high correlation values to each other, identify and remove outlier samples, transform fluorescence intensity values with estimateLogicle() and transform() functions, normalize and scale/center DNA intensity using gaussNorm() function and export new FCS files with "_processed.fcs" appended to the end using writeflowSet() function.
   
-    *Important: Comments will indicate where changes should be made based on specific datasets to accommodate differences between experiments, files, etc. For example, a CSV file called "RowLabels.csv" is required at line 59 for use in annotations. This has to exactly match the sample names. See the example files in the GitHub location \LIBPB-1390-Image3C\1-ProcessFcsFiles\processing\RowLabels.csv.*
+    *Important: Comments will indicate where changes should be made based on specific datasets to accommodate differences between experiments, files, etc. For example, a CSV file called "RowLabels.csv" is required at line 59 for use in annotations. This has to exactly match the sample names. See the example files in the folder 2_input_files_to_process_FCS_in_R at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.*
 	
     *Important: Although it is possible to normalize out all the results, it is preferred to use it only for DNA staining drift correction, where the true nature of 2N and 4N peaks is known and can be judged whether the underlying nature of distributions was changed. This normalization can also be used for antibody staining drift, but caution needs to be used in deciding if this is a result of staining drift or a real intensity difference between samples.*
 
-A tutorial page using the R markdown tool has been generated and made available.
+An R markdown tutorial page has been generated and is available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/3-R%20markdowns.
 
-Example files required to run the code are provided.
+Examples of files required to run this code are available in the folder 2_input_files_to_process_FCS_in_R at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.
 
-The full set of files that are generated running this code, including the new FCS files, for the example dataset are provided.
+The new FCS files generated running this code on the example dataset are available in the folder 3_processed_fcs_files_saved_from_R at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.
 
 ## Clustering the events in VorteX Clustering Environment/Xshift 
 
@@ -169,21 +168,19 @@ The full set of files that are generated running this code, including the new FC
     -   FDL.graphml (a graph of a subset of cells for each set of
         samples)
 
-Instructions for using VorteX Clustering Environment can be found at: <https://github.com/nolanlab/vortex/wiki/Getting-Started>.
+Instructions for using VorteX Clustering Environment can be found at <https://github.com/nolanlab/vortex/wiki/Getting-Started>.
 
-Tutorial video for clustering events in VorteX Clustering Environment is
-available.
+A tutorial video for clustering events in VorteX Clustering Environment is
+available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/2-TutorialVideos.
 
-Example files that should be obtained at the end of the analysis in
-VorteX Clustering Environment are provided.
+The files generated at the end of the analysis in VorteX Clustering Environment are available in the folder 4_process_clustering_information_in_R at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.
 
 ## Analysis of clustering results in R
 
 1.  Create an R studio project in the folder with the tabular data listed
     above.
 
-2.  Open the script called \"2_processClusteringResults.R\" in the
-    github location "...".
+2.  Open the script called "processClusteringResults.R" available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/Code. 
 
 3.  Run the code line by line. 
 
@@ -211,14 +208,11 @@ VorteX Clustering Environment are provided.
 
 9. Save the R script to capture any edits.
 
-A tutorial page using the R markdown tool has been generated and made available.
+An R markdown tutorial page has been generated and is available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/3-R%20markdowns.
 
-Example files that are required in the code and example files that
-should be obtained running this code are provided in the github location
-"...".
+Examples of files required to run this code are available in the folder 4_process_clustering_information_in_R at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.
 
-The final CSV files for the example dataset we provided are in the
-github location "...".
+The new files generated running this code on the example dataset are available in the folders 4_process_clustering_information_in_R and 5_vortex_files_saved_from_R at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/1-ExampleDataset.
 
 ## Data exploration and event visualization in FCS Express
 
@@ -230,9 +224,7 @@ github location "...".
 
 3.  Restart FCS Express Plus.
 
-4.  Open the R script called \"3_AddClusterIDs_FCSe.R\" in the github
-    location "..." and ensure that the all 3 file paths point to the folder where
-    the last CSV files were moved.
+4.  Open the R script called "AddClusterIDs_FCSe.R" available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/Code and ensure that the all 3 file paths point to the folder where the last CSV files were moved.
 
     *Important: make sure that line 42 is using columns 1, 4, and
     the last four columns from your CSV files, named "FDL-X", "FDL-Y", "MST-X" and "MST-Y" respectively. The last four columns will have different column numbers
@@ -241,32 +233,27 @@ github location "...".
     DAF files. Plotting FDL and minimum
     spanning tree in FCS Express Plus allows for gating events to visualize their images.*
 
-6.  Open a DAF file in FCS Express Plus.
+5.  Open a DAF file in FCS Express Plus.
 
-7.  Make a copy of the corresponding CSV file and rename it \"Template.csv\".
+6.  Make a copy of the corresponding CSV file and rename it \"Template.csv\".
 
-8.  In FCS Express Plus, go to "Tools -\> Transformations -\> R add parameters"
+7.  In FCS Express Plus, go to "Tools -\> Transformations -\> R add parameters"
     ("R integration" feature).
 
-9.  Point it to the \"3_AddClusterIDs_FCSe.R\" script and select
+8.  Point it to the "AddClusterIDs_FCSe.R" script and select
     \"object number\" for export. Ensure \"events as rows\" is checked.
 
-10. Drag the transformation to a plot, it will run and generate two
+9.  Drag the transformation to a plot, it will run and generate two
     test files (debugging purpose) called \"NewMatrix\" and \"OrigMatrix\" in the folder with the CSV files. If these are not made, the
     code is not running properly and the steps above should be carefully checked again.
 
-12. Images of events in a given cluster or position in the FDL or minimum spanning tree plots
+10. Images of events in a given cluster or position in the FDL or minimum spanning tree plots
     can now be displayed in a data grid. Subsets of events can be gated, and the
     corresponding images can be displayed. This data can be used to
     visualize Cell Images by Clusters.
 
-Tutorial video for exploring and visualizing data in FCS Express Plus is
-available in the github location "..."
-
-Instructions for using FCS Express Plus can be found at ...
-
-Example files that should be obtained at the end of the analysis in FCS
-Express Plus are provided in the github location "...".
+A tutorial video for exploring and visualizing data in FCS Express Plus is
+available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/2-TutorialVideos.
 
 ## Exporting tiff images for neural network training and analysis
 
@@ -281,12 +268,12 @@ Express Plus are provided in the github location "...".
     *Important: It is suggested to have a strategy for managing file names and directories. The tiff images will be pre-pended according to the name specified
     here. One tiff per image per channel, including Bright Field (BF) and Side Scatter (SSC), is going to be generated.*
 
-IDEAS® (Amnis Millipore Sigma) User Guide can be found at: <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
+IDEAS® (Amnis Millipore Sigma) User Guide can be found at <https://www.luminexcorp.com/imagestreamx-mk-ii/#documentation>.
 
-Tutorial video for exporting TIFF images in IDEAS is
-available.
+A tutorial video for exporting TIFF images in IDEAS is
+available at https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/2-TutorialVideos.
 
-Example files are provided in the github location "...".
+TIFF files of an example dataset are available in the folder "Figure 6" at the Stowers Original Data Repository at http://www.stowers.org/research/publications/libpb-1390.
 
 ## Instructions for neural network training and prediction
 
