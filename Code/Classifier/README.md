@@ -74,15 +74,6 @@ The main documentation can be found at:
 [Image3c Github](https://github.com/stowersinstitute/LIBPB-1390-Image3C/)
 
 Jupyter notebooks giving details about training and predicting
-data from the ImageStream and be found here:
+data from the ImageStream can be found in the main pages of this github repository:
+[Classifier Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier).
 
-[Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
-
-### How to crop and resize images
-
-### How to run training
-- path to training data
-- parameters to set
-- where to save stuff
-
-### How to infer
