@@ -353,7 +353,7 @@ data from the ImageStream can be found here:
 
 [Notebooks](https://github.com/stowersinstitute/LIBPB-1390-Image3C/tree/master/4-Classifier)
 
-### Dowload classifier data
+### Download classifier data
 
 To obtain the notebooks, this git repository can be cloned:
 
@@ -363,11 +363,11 @@ or zip files containing the notebooks can be downloaded from the Stowers Origina
 
 The notebooks used in the example notebooks can be found on the original data ftp for the paper:
 
-[Classifier Notebooks](ftp://odr.stowers.org/LIBPB-1390)
+[Classifier Notebooks](ftp://odr.stowers.org/LIBPB-1390/Figure%206/classifier_notebooks.zip)
 
 The notebooks and all of the data used in the classifier example can be downloaded here (3.3 GB):
 
-[Classifier Notebooks and Data](ftp://odr.stowers.org/LIBPB-1390) (3.3 GB)
+[Classifier Notebooks and Data](ftp://odr.stowers.org/LIBPB-1390/Figure%206/classifier_notebooks_with_data.zip) (3.3 GB)
 
 #### Links to individual classifier notebooks:
 
