@@ -3,6 +3,7 @@ dependencies:
   - python>3.6,<3.8
   - cudatoolkit=10.0.130
   - cudnn=7.6.0
+  - protobuf=3.20.1
   - pip
   - pip:
     - numpy
