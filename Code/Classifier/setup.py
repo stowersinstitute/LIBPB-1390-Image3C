@@ -42,7 +42,7 @@ requirements = [
 
 setup(
     name='image3c',
-    version="0.1.3",
+    version="0.1.4",
     author='Chris Wood',
     author_email='cjw@stowers.org',
     license='Apache Software License 2.0',

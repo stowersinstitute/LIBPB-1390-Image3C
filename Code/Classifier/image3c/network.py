@@ -380,10 +380,7 @@ class Classifier:
         tf.summary.histogram('truth', tf.argmax(self.label_batch, 1))
 
         merged = tf.summary.merge_all()
-        #train_writer = tf.summary.FileWriter('/scratch/cjw/logs/train',
-        #                                sess.graph)
-        #test_writer = tf.summary.FileWriter('/scratch/cjw/logs/test')
-        # 
+
         saver = tf.train.Saver(max_to_keep=1)
         best_saver = tf.train.Saver(max_to_keep=1)
         dtnow = datetime.now().timetuple()
@@ -435,11 +432,6 @@ class Classifier:
                     best_acc = vacc
                     print("!!! Best accuracy: ", i, vacc, vl)
                     
-            #if i % 10 == 0:
-            #    train_writer.add_summary(summary, i)
-                
-            #if i % 100 == 0:
-            #    test_writer.add_summary(test_summary, i)                
             if i % 1000 == 0:
                 print(i, xl, vl, learning_rate)
                 saver.save(sess, cpstring, i)
